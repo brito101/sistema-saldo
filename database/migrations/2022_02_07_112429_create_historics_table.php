@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBalancesTable extends Migration
+class CreateHistoricsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateBalancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('balances', function (Blueprint $table) {
+        Schema::create('historics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->double('amount', 10, 2)->default(0);
+            $table->enum('type', ['I', 'O', 'T']);
+            $table->double('amount', 10, 2);
+            $table->double('total_before', 10, 2);
+            $table->double('total_after', 10, 2);
+            $table->integer('user_id_transaction')->nullable();
+            $table->date('date');
         });
     }
 
@@ -27,6 +32,6 @@ class CreateBalancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('balances');
+        Schema::dropIfExists('historics');
     }
 }
