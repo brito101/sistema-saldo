@@ -241,11 +241,26 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Pesquisa',
         ],
-        ['header' => 'MENU'],
         [
-            'text'        => 'Home',
+            'text'        => 'Dashboard',
             'url'         => 'admin',
-            'icon'        => 'nav-icon fas fa-home'
+            'icon'        => 'nav-icon fas fa-tachometer-alt'
+        ],
+        [
+            'text'        => 'Finaneiro',
+            'icon'        => 'nav-icon fas fa-money-bill-alt',
+            'submenu' => [
+                [
+                    'text' => 'Saldo',
+                    'url'  => 'admin/balance',
+                    'icon' => 'nav-icon fas fa-credit-card',
+                ],
+                [
+                    'text' => 'Histórico',
+                    'url'  => 'admin/historic',
+                    'icon' => 'nav-icon fas fa-history',
+                ],
+            ]
         ],
         // [
         //     'text' => 'blog',
