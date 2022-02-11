@@ -15,21 +15,24 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Saldo') }}
+                    <div class="card-header">
                         <div class="col-12 d-flex flex-wrap px-0">
                             <a class="btn btn-primary mr-2 btn-small" href="{{ route('balance.deposit') }}"><i
                                     class="fas fa-cart-plus"></i>
-                                Recarregar</a>
-                            <a class="btn btn-secondary btn-small" href=""><i class="fas fa-cart-arrow-down"></i> Sacar</a>
+                                Depositar</a>
+                            @if ($amount > 0)
+                                <a class="btn btn-secondary mr-2 btn-small" href="{{ route('balance.withdraw') }}">
+                                    <i class="fas fa-cart-arrow-down"></i> Sacar</a>
+                            @endif
+                            @if ($amount > 0)
+                                <a class="btn btn-info btn-small" href="{{ route('balance.transfer') }}">
+                                    <i class="fas fa-exchange-alt"></i> Transferir</a>
+                            @endif
                         </div>
                     </div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success col-12 col-md-4" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                        @include('admin.includes.alerts')
 
                         <div class="col-12 col-md-4 px-0">
                             <div class="small-box bg-success">

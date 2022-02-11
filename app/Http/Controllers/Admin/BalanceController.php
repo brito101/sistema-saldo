@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MoneyValidationFormRequest;
 use App\Models\Balance;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BalanceController extends Controller
@@ -18,7 +19,9 @@ class BalanceController extends Controller
 
     public function deposit()
     {
-        return view('admin.balance.deposit');
+        $balance = auth()->user()->balance;
+        $amount = $balance ? $balance->amount : 0;
+        return view('admin.balance.deposit', compact('amount'));
     }
 
     public function depositStore(MoneyValidationFormRequest $request)
@@ -28,11 +31,56 @@ class BalanceController extends Controller
         if ($response['success']) {
             return redirect()
                 ->route('admin.balance')
-                ->with('status', $response['message']);
+                ->with('success', $response['message']);
         } else {
             return redirect()
                 ->back()
-                ->with('status', $response['message']);
+                ->with('error', $response['message']);
         }
+    }
+
+    public function withdraw()
+    {
+        return view('admin.balance.withdraw');
+    }
+
+    public function withdrawStore(MoneyValidationFormRequest $request)
+    {
+        $balance = auth()->user()->balance()->firstOrCreate([]);
+        $response = $balance->withdraw($request->value);
+        if ($response['success']) {
+            return redirect()
+                ->route('admin.balance')
+                ->with('success', $response['message']);
+        } else {
+            return redirect()
+                ->back()
+                ->with('error', $response['message']);
+        }
+    }
+
+    public function transfer()
+    {
+        return view('admin.balance.transfer');
+    }
+
+    public function confirmTransfer(Request $request, User $user)
+    {
+        dd($request->all());
+        if (!$sender = $user->getSender($request->sender)) {
+            return redirect()
+                ->back()
+                ->with('error', 'Usuário informado não foi encontrado!');
+        }
+
+        if ($sender->id === auth()->user()->id) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não pode transferir para você mesmo!');
+        }
+
+        $balance = auth()->user()->balance;
+
+        return view('admin.balance.transfer-confirm', compact('sender', 'balance'));
     }
 }

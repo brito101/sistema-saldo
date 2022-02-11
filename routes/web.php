@@ -11,6 +11,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('balance', [BalanceController::class, 'index'])->name('admin.balance');
     Route::get('deposit', [BalanceController::class, 'deposit'])->name('balance.deposit');
     Route::post('deposit', [BalanceController::class, 'depositStore'])->name('deposit.store');
+    Route::get('withdraw', [BalanceController::class, 'withdraw'])->name('balance.withdraw');
+    Route::post('withdraw', [BalanceController::class, 'withdrawStore'])->name('withdraw.store');
+    Route::get('transfer', [BalanceController::class, 'transfer'])->name('balance.transfer');
+    Route::post('confirm-transfer', [BalanceController::class, 'confirmTransfer'])->name('confirm.transfer');
 });
 
 Route::get('/', [SiteController::class, 'index'])->name('site.home');
