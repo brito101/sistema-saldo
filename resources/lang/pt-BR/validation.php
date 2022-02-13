@@ -134,6 +134,7 @@ return [
         ],
     ],
     'attributes' => [
-        'value' => 'valor'
+        'value' => 'valor',
+        'sender' => 'recebedor'
     ],
 ];

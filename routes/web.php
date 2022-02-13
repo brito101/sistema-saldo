@@ -15,6 +15,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('withdraw', [BalanceController::class, 'withdrawStore'])->name('withdraw.store');
     Route::get('transfer', [BalanceController::class, 'transfer'])->name('balance.transfer');
     Route::post('confirm-transfer', [BalanceController::class, 'confirmTransfer'])->name('confirm.transfer');
+    Route::post('transfer', [BalanceController::class, 'transferStore'])->name('transfer.store');
+    Route::get('historic', [BalanceController::class, 'historic'])->name('admin.historic');
 });
 
 Route::get('/', [SiteController::class, 'index'])->name('site.home');
