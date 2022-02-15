@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BalanceController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\SiteController;
@@ -17,7 +18,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('confirm-transfer', [BalanceController::class, 'confirmTransfer'])->name('confirm.transfer');
     Route::post('transfer', [BalanceController::class, 'transferStore'])->name('transfer.store');
     Route::get('historic', [BalanceController::class, 'historic'])->name('admin.historic');
+    Route::any('historic-search', [BalanceController::class, 'searchHistoric'])->name('historic.search');
 });
+
+Route::get('meu-perfil', [UserController::class, 'profile'])->name('profile')->middleware('auth');
+Route::post('atualizar-perfil', [UserController::class, 'profileUpdate'])->name('profile.update')->middleware('auth');
 
 Route::get('/', [SiteController::class, 'index'])->name('site.home');
 

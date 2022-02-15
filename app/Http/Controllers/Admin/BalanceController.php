@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class BalanceController extends Controller
 {
+    private $totalPage = 10;
+
     public function index()
     {
         $balance = auth()->user()->balance;
@@ -109,12 +111,19 @@ class BalanceController extends Controller
 
     public function historic(Historic $historic)
     {
-        $historics = auth()->user()->historics()->get();
-        // ->with(['userSender'])
-        // ->paginate($this->totalPage);
+        $historics = auth()->user()->historics()->with(['userSender'])
+            ->paginate($this->totalPage);
 
         $types = $historic->type();
 
         return view('admin.balance.historics', compact('historics', 'types'));
+    }
+
+    public function searchHistoric(Request $request, Historic $historic)
+    {
+        $dataForm = $request->except('_token');
+        $historics = $historic->search($dataForm, $this->totalPage);
+        $types = $historic->type();
+        return view('admin.balance.historics', compact('historics', 'types', 'dataForm'));
     }
 }
