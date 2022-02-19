@@ -135,6 +135,7 @@ return [
     ],
     'attributes' => [
         'value' => 'valor',
-        'sender' => 'recebedor'
+        'sender' => 'recebedor',
+        'password' => 'senha'
     ],
 ];

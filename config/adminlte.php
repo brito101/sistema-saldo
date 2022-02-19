@@ -262,6 +262,11 @@ return [
                 ],
             ]
         ],
+        [
+            'text'        => 'Meu Perfil',
+            'url'         => 'meu-perfil',
+            'icon'        => 'nav-icon fas fa-user'
+        ],
         // [
         //     'text' => 'blog',
         //     'url'  => 'admin/blog',
